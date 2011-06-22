@@ -12,3 +12,7 @@ install-local:
 install:
 	mkdir --parents ${DESTDIR}/usr/share/gnome-shell/extensions/${UUID}
 	cp extension.js metadata.json ${DESTDIR}/usr/share/gnome-shell/extensions/${UUID}
+
+
+dist:
+	git archive --format=tar --prefix=gnome-shell-intel-ww-$(shell git describe)/ HEAD | gzip > gnome-shell-intel-ww-$(shell git describe).tar.gz
