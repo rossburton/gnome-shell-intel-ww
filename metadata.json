@@ -1,1 +1,7 @@
-{"shell-version": ["3.0.2"], "uuid": "intel-work-week@ross.burton.intel.com", "name": "Intel Work Week", "description": "Show Intel Work Weeks in the calendar"}
+{
+    "shell-version": ["3.0.2"],
+    "uuid": "intel-work-week@ross.burton.intel.com",
+    "name": "Intel Work Week",
+    "description": "Show Intel Work Weeks in the calendar",
+    "url": "https://github.com/rossburton/gnome-shell-intel-ww"
+}
