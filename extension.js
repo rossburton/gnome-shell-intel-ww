@@ -25,7 +25,10 @@ const MSECS_IN_DAY = 24 * 60 * 60 * 1000;
 function main() {
     Calendar._getCalendarWeekForDate = function(date) {
         /* This function is a slight modification of the ISO 8601 function in
-         * gnome-shell/js/ui/calendar.js to give Intel Work Weeks, hopefully. */
+         * gnome-shell/js/ui/calendar.js to give Intel Work Weeks, hopefully.
+         *
+         * https://intelpedia.intel.com/WW_-_Work_Week
+         */
         let midnightDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         let dayOfWeek = 1 + ((midnightDate.getDay() + 6) % 7);
         let nearestSaturday = new Date(midnightDate.getFullYear(), midnightDate.getMonth(),
