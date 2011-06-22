@@ -1,0 +1,16 @@
+Intel Work Weeks in GNOME Shell
+===
+
+This is a simple extension that monkey patches the _getCalendarWeekForDate()
+function to use the Intel Work Week system instead of ISO 8601.
+
+To install it for all users:
+
+  sudo make install.
+
+To install it for the current user:
+
+  make install-local
+
+To activate the extension you'll need to reload the shell, this is done by activating the
+Run dialog (Alt-F2 by default) and entering "restart".
