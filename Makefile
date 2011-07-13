@@ -1,5 +1,5 @@
 UUID=intel-work-week@ross.burton.intel.com
-FILES=extension.js metadata.json
+FILES=extension.js metadata.json stylesheet.css
 
 all:
 	@echo Nothing to do, try "make install-local" or "make install".

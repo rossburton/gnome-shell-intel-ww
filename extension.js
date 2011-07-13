@@ -19,10 +19,13 @@
  * Author: Ross Burton <ross.burton@intel.com>
  */
 
+const St = imports.gi.St;
+const Main = imports.ui.main;
+
 const Calendar = imports.ui.calendar;
 const MSECS_IN_DAY = 24 * 60 * 60 * 1000;
 
-function main() {
+function main(extensionMeta) {
     Calendar._getCalendarWeekForDate = function(date) {
         /* This function is a slight modification of the ISO 8601 function in
          * gnome-shell/js/ui/calendar.js to give Intel Work Weeks, hopefully.
@@ -39,4 +42,21 @@ function main() {
         let weekNumber = Math.floor(dayNumber / 7) + 1;
         return weekNumber;
     };
+
+
+    /*
+     * This is damned ugly but the only way apparently to override the shell
+     * themes from an extension.
+     */
+    let defaultStylesheet = Main._defaultCssStylesheet;
+    let patchStylesheet = extensionMeta.path + '/stylesheet.css';
+
+    let themeContext = St.ThemeContext.get_for_stage(global.stage);
+    let theme = new St.Theme ({ application_stylesheet: patchStylesheet,
+                                theme_stylesheet: defaultStylesheet });
+    try {
+        themeContext.set_theme(theme);
+    } catch (e) {
+        global.logError('Stylesheet parse error: ' + e);
+    }
 }
