@@ -14,3 +14,7 @@ To install it for the current user:
 
 To activate the extension you'll need to reload the shell, this is done by activating the
 Run dialog (Alt-F2 by default) and entering "restart".
+
+Note that showing the week numbers is a hidden setting.  You can enable it from a terminal:
+
+$ dconf write /org/gnome/shell/calendar/show-weekdate true
