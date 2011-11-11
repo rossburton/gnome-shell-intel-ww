@@ -25,31 +25,34 @@ const Main = imports.ui.main;
 const Calendar = imports.ui.calendar;
 const MSECS_IN_DAY = 24 * 60 * 60 * 1000;
 
-function main(extensionMeta) {
-    Calendar._getCalendarWeekForDate = function(date) {
-        /* This function is a slight modification of the ISO 8601 function in
-         * gnome-shell/js/ui/calendar.js to give Intel Work Weeks, hopefully.
-         *
-         * https://intelpedia.intel.com/WW_-_Work_Week
-         */
-        let midnightDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        let dayOfWeek = 1 + ((midnightDate.getDay() + 6) % 7);
-        let nearestSaturday = new Date(midnightDate.getFullYear(), midnightDate.getMonth(),
-                                       midnightDate.getDate() + (6 - dayOfWeek));
-        let jan1st = new Date(nearestSaturday.getFullYear(), 0, 1, -6);
-        let diffDate = nearestSaturday - jan1st;
-        var dayNumber = Math.floor(Math.abs(diffDate) / MSECS_IN_DAY);
-        let weekNumber = Math.floor(dayNumber / 7) + 1;
-        return weekNumber;
-    };
+function _getCalendarWorkWeekForDate(date) {
+    /* This function is a slight modification of the ISO 8601 function in
+     * gnome-shell/js/ui/calendar.js to give Intel Work Weeks, hopefully.
+     *
+     * https://intelpedia.intel.com/WW_-_Work_Week
+     */
+    let midnightDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    let dayOfWeek = 1 + ((midnightDate.getDay() + 6) % 7);
+    let nearestSaturday = new Date(midnightDate.getFullYear(), midnightDate.getMonth(),
+                                   midnightDate.getDate() + (6 - dayOfWeek));
+    let jan1st = new Date(nearestSaturday.getFullYear(), 0, 1, -6);
+    let diffDate = nearestSaturday - jan1st;
+    var dayNumber = Math.floor(Math.abs(diffDate) / MSECS_IN_DAY);
+    let weekNumber = Math.floor(dayNumber / 7) + 1;
+    return weekNumber;
+}
 
+let _original
+
+function init(metadata) {
+    _original_func = Calendar._getCalendarWeekForDate;
 
     /*
      * This is damned ugly but the only way apparently to override the shell
      * themes from an extension.
      */
     let defaultStylesheet = Main._defaultCssStylesheet;
-    let patchStylesheet = extensionMeta.path + '/stylesheet.css';
+    let patchStylesheet = metadata.path + '/stylesheet.css';
 
     let themeContext = St.ThemeContext.get_for_stage(global.stage);
     let theme = new St.Theme ({ application_stylesheet: patchStylesheet,
@@ -59,4 +62,16 @@ function main(extensionMeta) {
     } catch (e) {
         global.logError('Stylesheet parse error: ' + e);
     }
+}
+
+function enable() {
+    /* TODO: enable styles */
+
+    Calendar._getCalendarWeekForDate = _getCalendarWorkWeekForDate;
+}
+
+function disable() {
+    /* TODO: restore the styles */
+
+    Calendar._getCalendarWeekForDate = _original_func;
 }
