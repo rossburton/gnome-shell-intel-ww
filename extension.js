@@ -42,7 +42,7 @@ function _getCalendarWorkWeekForDate(date) {
     return weekNumber;
 }
 
-let _original
+let _original_func = 0;
 
 function init(metadata) {
     _original_func = Calendar._getCalendarWeekForDate;
